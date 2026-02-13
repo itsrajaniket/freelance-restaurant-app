@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Maharani Ice Cream Parlour</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          fontFamily: {
+            sans: ["Outfit", "sans-serif"],
+          },
+          extend: {
+            colors: {
+              brand: {
+                orange: "#FF6D00",
+                green: "#00C853",
+                red: "#EF4444",
+                dark: "#0A0A0A",
+                card: "#171717",
+              },
+            },
+            animation: {
+              "bounce-short": "bounce-short 0.2s ease-in-out 1",
+            },
+            keyframes: {
+              "bounce-short": {
+                "0%, 100%": { transform: "scale(1)" },
+                "50%": { transform: "scale(0.96)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .glass {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .dark .glass {
+        background: rgba(10, 10, 10, 0.85);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* Highlight Class for Search */
+      .highlight-text {
+        background-color: rgba(255, 109, 0, 0.2);
+        color: #ff6d00;
+        padding: 0 2px;
+        border-radius: 4px;
+      }
+      .dark .highlight-text {
+        background-color: rgba(255, 109, 0, 0.4);
+        color: #ffd180;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-50 text-slate-900 dark:bg-brand-dark dark:text-gray-100 transition-colors duration-300"
+  >
+    <header
+      class="fixed top-0 left-0 right-0 z-40 glass transition-all duration-300"
+    >
+      <div class="max-w-md mx-auto px-4 py-3">
+        <div class="flex justify-between items-center mb-3">
+          <div class="flex flex-col">
+            <h1 class="text-lg font-bold tracking-tight text-brand-orange">
+              MAHARANI
+            </h1>
+            <div class="flex items-center gap-1.5" id="storeStatusContainer">
+              <span class="relative flex h-2 w-2">
+                <span
+                  id="storeStatusPing"
+                  class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"
+                ></span>
+                <span
+                  id="storeStatusDot"
+                  class="relative inline-flex rounded-full h-2 w-2 bg-brand-green"
+                ></span>
+              </span>
+              <span
+                id="storeStatusText"
+                class="text-xs font-medium text-gray-500 dark:text-gray-400"
+                >Open Now • Khagaria</span
+              >
+            </div>
+          </div>
+          <button
+            id="themeToggle"
+            class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 active:scale-90 transition-transform"
+          >
+            <i class="ph ph-moon text-xl" id="themeIcon"></i>
+          </button>
+        </div>
+
+        <div class="relative">
+          <i
+            class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg"
+          ></i>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search for paneer, shakes..."
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 border-none outline-none focus:ring-2 focus:ring-brand-orange/50 text-sm font-medium transition-all placeholder-gray-400 dark:placeholder-gray-500"
+          />
+        </div>
+      </div>
+
+      <nav
+        class="max-w-md mx-auto pl-4 border-b border-gray-100 dark:border-gray-800/50"
+      >
+        <div
+          class="flex gap-3 overflow-x-auto no-scrollbar py-2 pr-4"
+          id="categoryList"
+        ></div>
+      </nav>
+    </header>
+
+    <main
+      class="max-w-md mx-auto px-4 pt-[156px] min-h-[60vh]"
+      id="menuContainer"
+    >
+      <div id="skeleton" class="space-y-4 animate-pulse">
+        <div class="h-6 w-32 bg-gray-200 dark:bg-gray-800 rounded"></div>
+        <div class="h-24 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
+        <div class="h-24 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
+        <div class="h-24 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
+      </div>
+    </main>
+
+    <footer
+      class="mt-12 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-brand-card pt-10 pb-36 transition-colors duration-300"
+    >
+      <div class="max-w-md mx-auto px-6">
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-brand-orange mb-2 tracking-tight">
+            MAHARANI
+          </h2>
+          <p
+            class="text-sm text-gray-500 dark:text-gray-400 mb-5 leading-relaxed"
+          >
+            The finest ice cream parlour and food plaza in town.
+          </p>
+          <div class="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+            <div class="flex items-start gap-3">
+              <i class="ph-fill ph-map-pin text-brand-orange text-lg mt-0.5"></i
+              ><span>Thana Road, Khagaria, Bihar</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="ph-fill ph-phone text-brand-orange text-lg"></i
+              ><span>+91 91234 56789</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="grid grid-cols-2 gap-8 mb-10 border-t border-gray-100 dark:border-gray-800 pt-8"
+        >
+          <div>
+            <h3
+              class="font-bold text-gray-900 dark:text-gray-100 mb-4 text-sm uppercase tracking-wider"
+            >
+              Quick Links
+            </h3>
+            <ul class="space-y-2.5 text-sm text-gray-500 dark:text-gray-400">
+              <li><a href="#" class="hover:text-brand-orange">Home</a></li>
+              <li>
+                <a href="#menuContainer" class="hover:text-brand-orange"
+                  >Menu</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3
+              class="font-bold text-gray-900 dark:text-gray-100 mb-4 text-sm uppercase tracking-wider"
+            >
+              Legal
+            </h3>
+            <ul class="space-y-2.5 text-sm text-gray-500 dark:text-gray-400">
+              <li>
+                <a href="#" class="hover:text-brand-orange">Terms & Use</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-brand-orange">Privacy Policy</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="flex justify-center gap-4">
+          <a
+            href="#"
+            class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors"
+            ><i class="ph-fill ph-facebook-logo text-xl"></i
+          ></a>
+          <a
+            href="#"
+            class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors"
+            ><i class="ph-fill ph-instagram-logo text-xl"></i
+          ></a>
+          <a
+            href="#"
+            class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors"
+            ><i class="ph-fill ph-whatsapp-logo text-xl"></i
+          ></a>
+        </div>
+      </div>
+    </footer>
+
+    <div
+      id="cartPill"
+      class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 translate-y-20 transition-transform duration-300 hidden"
+    >
+      <button
+        onclick="openCheckout()"
+        class="flex items-center gap-3 bg-brand-orange text-white px-5 py-3 rounded-full shadow-lg shadow-orange-500/30 active:scale-95 transition-transform w-[340px] justify-between"
+      >
+        <div class="flex flex-col items-start text-xs">
+          <span class="font-bold text-sm" id="cartCount">0 Items</span>
+          <span class="opacity-90">View Cart</span>
+        </div>
+        <span class="font-bold text-lg" id="cartTotal">₹0</span>
+      </button>
+    </div>
+
+    <div
+      id="checkoutModal"
+      class="fixed inset-0 z-50 invisible transition-all duration-300"
+    >
+      <div
+        onclick="closeCheckout()"
+        class="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 transition-opacity duration-300"
+        id="modalBackdrop"
+      ></div>
+      <div
+        class="absolute bottom-0 left-0 right-0 bg-white dark:bg-brand-card rounded-t-[2rem] transform translate-y-full transition-transform duration-300 max-h-[85vh] flex flex-col"
+        id="modalContent"
+      >
+        <div
+          class="w-full flex justify-center pt-3 pb-1"
+          onclick="closeCheckout()"
+        >
+          <div
+            class="w-12 h-1.5 bg-gray-300 dark:bg-gray-700 rounded-full"
+          ></div>
+        </div>
+        <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+          <h2 class="text-xl font-bold">Your Order</h2>
+          <p class="text-xs text-gray-500">Maharani Food Plaza</p>
+        </div>
+        <div
+          class="flex-1 overflow-y-auto p-6 space-y-4"
+          id="cartItemsContainer"
+        ></div>
+        <div
+          class="p-6 bg-gray-50 dark:bg-black/20 border-t border-gray-100 dark:border-gray-800"
+        >
+          <textarea
+            id="orderNotes"
+            placeholder="Add cooking instructions..."
+            class="w-full mb-4 p-3 text-sm rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 resize-none h-20"
+          ></textarea>
+          <div class="flex justify-between items-center mb-4">
+            <span class="text-gray-500">Grand Total</span>
+            <span class="text-2xl font-bold text-brand-orange" id="modalTotal"
+              >₹0</span
+            >
+          </div>
+          <button
+            onclick="sendToWhatsApp()"
+            id="whatsappBtn"
+            class="w-full bg-brand-green text-white font-bold py-3.5 rounded-xl shadow-lg shadow-green-500/20 active:scale-95 transition-transform flex items-center justify-center gap-2"
+          >
+            <i class="ph ph-whatsapp-logo text-xl"></i>
+            <span>Place Order via WhatsApp</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
