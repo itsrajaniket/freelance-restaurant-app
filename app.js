@@ -643,32 +643,45 @@ window.closeCheckout = function () {
   }, 300);
 };
 // --- 11. WhatsApp Integration ---
+// --- 11. WhatsApp Integration (Updated with Name) ---
 window.sendToWhatsApp = function () {
   if (!isStoreOpen) {
     alert("Sorry, the store is currently closed.");
     return;
   }
 
+  // 1. Get the Name
+  const nameInput = document.getElementById("customerName");
+  const name = nameInput ? nameInput.value.trim() : "";
+
+  // 2. Validate: Force user to enter name
+  if (!name) {
+    alert("Please enter your name to place the order.");
+    nameInput.focus();
+    return;
+  }
+
   const notesInput = document.getElementById("orderNotes");
   const notes = notesInput ? notesInput.value.trim() : "";
-  let message = `*NEW ORDER - MAHARANI*\n-----------------------\n`;
+
+  // 3. Update Message Format
+  let message = `*NEW ORDER from ${name.toUpperCase()}*\n`;
+  message += `-----------------------\n`;
 
   let total = 0;
   for (const [id, qty] of Object.entries(cart)) {
-    const name = getItemName(id);
+    const itemName = getItemName(id);
     const price = getItemPrice(id);
     const lineTotal = price * qty;
     total += lineTotal;
-    message += `${qty} x ${name} (₹${lineTotal})\n`;
+    message += `${qty} x ${itemName} (₹${lineTotal})\n`;
   }
 
   message += `-----------------------\n`;
   if (notes) message += `📝 Note: ${notes}\n`;
   message += `💰 *Total Bill: ₹${total}*`;
 
-  // FIX: Added '918002710309' to the URL
-  // Format is: https://wa.me/<country_code><phone_number>?text=...
-  const url = `https://wa.me/918002710309?text=${encodeURIComponent(message)}`;
-
+  // 4. Send to WhatsApp
+  const url = `https://wa.me/+918002710309?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank");
 };
