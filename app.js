@@ -642,7 +642,6 @@ window.closeCheckout = function () {
     modal.classList.add("invisible");
   }, 300);
 };
-
 // --- 11. WhatsApp Integration ---
 window.sendToWhatsApp = function () {
   if (!isStoreOpen) {
@@ -667,6 +666,9 @@ window.sendToWhatsApp = function () {
   if (notes) message += `📝 Note: ${notes}\n`;
   message += `💰 *Total Bill: ₹${total}*`;
 
-  const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+  // FIX: Added '918002710309' to the URL
+  // Format is: https://wa.me/<country_code><phone_number>?text=...
+  const url = `https://wa.me/918002710309?text=${encodeURIComponent(message)}`;
+
   window.open(url, "_blank");
 };
