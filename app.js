@@ -1,8 +1,39 @@
 /* * MAHARANI ICE CREAM PARLOUR & FOOD PLAZA
- * Logic: Fixed Scroll Spy & Clean Layout
+ * Application Logic & Configuration
  */
 
-// --- Menu Data Source ---
+// --- 1. Tailwind Configuration ---
+// Defined here to keep HTML clean.
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    fontFamily: {
+      sans: ["Outfit", "sans-serif"],
+    },
+    extend: {
+      colors: {
+        brand: {
+          orange: "#FF6D00",
+          green: "#00C853",
+          red: "#EF4444",
+          dark: "#0A0A0A",
+          card: "#171717",
+        },
+      },
+      animation: {
+        "bounce-short": "bounce-short 0.2s ease-in-out 1",
+      },
+      keyframes: {
+        "bounce-short": {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(0.96)" },
+        },
+      },
+    },
+  },
+};
+
+// --- 2. Menu Data Source ---
 const menuData = [
   {
     category: "Indian Dishes",
@@ -136,12 +167,12 @@ const menuData = [
   },
 ];
 
-// --- State Management ---
+// --- 3. State Management ---
 const cart = {};
 let activeCategory = menuData[0].category;
 let isStoreOpen = true;
 
-// --- Initialization ---
+// --- 4. Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   renderCategories();
@@ -149,22 +180,27 @@ document.addEventListener("DOMContentLoaded", () => {
   checkStoreStatus();
 
   // Search Listener
-  document.getElementById("searchInput").addEventListener("input", (e) => {
-    const query = e.target.value.toLowerCase();
-    renderMenu(query);
-  });
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase();
+      renderMenu(query);
+    });
+  }
 
-  document.getElementById("skeleton").remove();
+  const skeleton = document.getElementById("skeleton");
+  if (skeleton) skeleton.remove();
 
   // Init Scroll Listener
   window.addEventListener("scroll", handleScrollSpy);
 });
 
-// --- Feature 6: Operational Hours ---
+// --- 5. Feature: Operational Hours ---
 function checkStoreStatus() {
   const now = new Date();
   const hour = now.getHours();
-  isStoreOpen = hour >= 10 && hour < 23;
+  // Opens 10 AM, Closes 11 PM (23:00)
+  //   isStoreOpen = hour >= 10 && hour < 23;
 
   const dot = document.getElementById("storeStatusDot");
   const ping = document.getElementById("storeStatusPing");
@@ -172,11 +208,13 @@ function checkStoreStatus() {
   const whatsappBtn = document.getElementById("whatsappBtn");
 
   if (!isStoreOpen) {
-    if (dot) {
+    if (dot && ping && text) {
       dot.classList.remove("bg-brand-green");
       dot.classList.add("bg-brand-red");
+
       ping.classList.remove("bg-brand-green");
       ping.classList.add("bg-brand-red");
+
       text.innerText = "Closed • Opens 10 AM";
       text.classList.add("text-brand-red");
     }
@@ -188,18 +226,16 @@ function checkStoreStatus() {
   }
 }
 
-// --- FIX 1: Robust Scroll Spy ---
+// --- 6. Feature: Robust Scroll Spy ---
 function handleScrollSpy() {
-  // Height of Header + Search Bar + Category Pills approx 160px
-  const headerOffset = 180;
+  // Height of Header + Search Bar + Category Pills approx 180px
+  const headerOffset = 200;
   const sections = document.querySelectorAll('[id^="cat-"]');
 
   let current = "";
 
   sections.forEach((section) => {
     const sectionTop = section.offsetTop;
-    const sectionHeight = section.clientHeight;
-
     // Check if we are currently looking at this section
     if (window.scrollY >= sectionTop - headerOffset) {
       current = section.getAttribute("data-category");
@@ -212,32 +248,41 @@ function handleScrollSpy() {
   }
 }
 
-// --- Theme Logic ---
+// --- 7. Theme Logic ---
 function initTheme() {
   const isDark =
     localStorage.getItem("theme") === "dark" ||
     (!("theme" in localStorage) &&
       window.matchMedia("(prefers-color-scheme: dark)").matches);
 
+  const themeIcon = document.getElementById("themeIcon");
+
   if (isDark) {
     document.documentElement.classList.add("dark");
-    document.getElementById("themeIcon").classList.replace("ph-moon", "ph-sun");
+    if (themeIcon) themeIcon.classList.replace("ph-moon", "ph-sun");
   }
 
-  document.getElementById("themeToggle").addEventListener("click", () => {
-    document.documentElement.classList.toggle("dark");
-    const isNowDark = document.documentElement.classList.contains("dark");
-    localStorage.setItem("theme", isNowDark ? "dark" : "light");
-    const icon = document.getElementById("themeIcon");
-    isNowDark
-      ? icon.classList.replace("ph-moon", "ph-sun")
-      : icon.classList.replace("ph-sun", "ph-moon");
-  });
+  const toggleBtn = document.getElementById("themeToggle");
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      document.documentElement.classList.toggle("dark");
+      const isNowDark = document.documentElement.classList.contains("dark");
+      localStorage.setItem("theme", isNowDark ? "dark" : "light");
+
+      if (isNowDark) {
+        themeIcon.classList.replace("ph-moon", "ph-sun");
+      } else {
+        themeIcon.classList.replace("ph-sun", "ph-moon");
+      }
+    });
+  }
 }
 
-// --- Render Functions ---
+// --- 8. Render Functions ---
 function renderCategories() {
   const container = document.getElementById("categoryList");
+  if (!container) return;
+
   container.innerHTML = menuData
     .map((cat) => {
       const pillId = `pill-${cat.category.replace(/\s+/g, "-")}`;
@@ -284,19 +329,21 @@ function updateActivePill(catName) {
   }
 }
 
-function scrollToCategory(catName) {
+// Exposed to global scope for HTML onclick attributes
+window.scrollToCategory = function (catName) {
   const element = document.getElementById(
     `cat-${catName.replace(/\s+/g, "-")}`,
   );
   if (element) {
     const y = element.getBoundingClientRect().top + window.scrollY - 160;
     window.scrollTo({ top: y, behavior: "smooth" });
-    updateActivePill(catName); // Update UI immediately
+    updateActivePill(catName);
   }
-}
+};
 
 function renderMenu(searchQuery = "") {
   const container = document.getElementById("menuContainer");
+  if (!container) return;
 
   if (searchQuery) {
     const matches = [];
@@ -326,19 +373,20 @@ function renderMenu(searchQuery = "") {
   }
 }
 
-// --- FIX 2: Layout Cleanup ---
+// --- FIX: Premium Card Design ---
 function generateCategoryHTML(cat, isSearch, searchQuery = "") {
-  // Create ID but also add DATA-CATEGORY for the scroll spy to read
   const catId = `cat-${cat.category.replace(/\s+/g, "-")}`;
 
   return `
-        <div id="${catId}" data-category="${cat.category}" class="mb-8 scroll-mt-[170px]">
+        <div id="${catId}" data-category="${cat.category}" class="mb-10 scroll-mt-[200px]">
             ${
               !isSearch
-                ? `<h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
-                <span class="w-1 h-6 bg-brand-orange rounded-full"></span>
-                ${cat.category}
-            </h3>`
+                ? `<div class="flex items-center gap-3 mb-5 pl-1">
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white tracking-tight">
+                        ${cat.category}
+                    </h3>
+                    <div class="h-px flex-1 bg-gray-100 dark:bg-gray-800"></div>
+                   </div>`
                 : ""
             }
             
@@ -347,7 +395,7 @@ function generateCategoryHTML(cat, isSearch, searchQuery = "") {
                   .map((item) => {
                     const qty = cart[item.id] || 0;
 
-                    // Search Highlight Logic
+                    // Highlight Logic
                     let displayName = item.name;
                     if (isSearch && searchQuery) {
                       const regex = new RegExp(`(${searchQuery})`, "gi");
@@ -357,21 +405,22 @@ function generateCategoryHTML(cat, isSearch, searchQuery = "") {
                       );
                     }
 
-                    // FIXED LAYOUT: Removed the hardcoded Bestseller badge.
-                    // Put the Veg icon inline with the name to save space.
                     return `
-                    <div class="bg-white dark:bg-brand-card p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 flex justify-between items-center">
-                        <div class="flex-1 pr-3 overflow-hidden">
-                            <div class="flex items-start gap-2">
-                                <i class="ph-fill ph-circle text-brand-green text-[10px] mt-1.5 flex-shrink-0"></i>
-                                <div class="flex flex-col">
-                                    <h4 class="font-semibold text-gray-900 dark:text-gray-100 text-[15px] leading-tight break-words">${displayName}</h4>
-                                    <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">₹${item.price}</p>
+                    <div class="menu-card group relative bg-white dark:bg-brand-card p-4 rounded-[1.25rem] shadow-sm border border-gray-100 dark:border-gray-800 flex justify-between items-start gap-3 overflow-hidden">
+                        
+                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-brand-orange/0 via-brand-orange/50 to-brand-orange/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+                        <div class="flex-1 py-1">
+                            <div class="flex items-start gap-2.5">
+                                <i class="ph-fill ph-circle-stop ${item.type === "veg" ? "text-green-500" : "text-red-500"} text-xs mt-1.5 shadow-sm"></i>
+                                <div class="flex flex-col gap-1">
+                                    <h4 class="font-bold text-gray-900 dark:text-gray-50 text-[16px] leading-snug">${displayName}</h4>
+                                    <p class="font-medium text-gray-500 dark:text-gray-400 text-sm">₹${item.price}</p>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="flex flex-col items-center gap-1 flex-shrink-0" id="btn-container-${item.id}">
+                        <div class="flex flex-col items-center justify-center self-center pl-2" id="btn-container-${item.id}">
                             ${getButtonHTML(item.id, qty)}
                         </div>
                     </div>
@@ -381,6 +430,30 @@ function generateCategoryHTML(cat, isSearch, searchQuery = "") {
             </div>
         </div>
     `;
+}
+
+// --- FIX: Better Button Design ---
+function getButtonHTML(id, qty) {
+  if (qty === 0) {
+    return `
+            <button onclick="updateCart(${id}, 1)" 
+                class="relative overflow-hidden w-24 h-9 bg-white dark:bg-gray-800 text-brand-orange border border-brand-orange/30 dark:border-gray-600 rounded-lg font-bold text-sm shadow-sm active:scale-95 transition-all hover:bg-brand-orange hover:text-white group">
+                <span class="relative z-10">ADD</span>
+            </button>
+        `;
+  } else {
+    return `
+            <div class="flex items-center bg-brand-dark dark:bg-white text-white dark:text-black rounded-lg h-9 shadow-md overflow-hidden ring-1 ring-black/5 dark:ring-white/10">
+                <button onclick="updateCart(${id}, -1)" class="w-8 h-full flex items-center justify-center hover:bg-white/10 active:bg-white/20 transition-colors">
+                    <i class="ph-bold ph-minus text-xs"></i>
+                </button>
+                <span class="w-7 text-center font-bold text-sm">${qty}</span>
+                <button onclick="updateCart(${id}, 1)" class="w-8 h-full flex items-center justify-center hover:bg-white/10 active:bg-white/20 transition-colors">
+                    <i class="ph-bold ph-plus text-xs"></i>
+                </button>
+            </div>
+        `;
+  }
 }
 
 function getButtonHTML(id, qty) {
@@ -405,8 +478,9 @@ function getButtonHTML(id, qty) {
   }
 }
 
-// --- Cart Logic ---
-function updateCart(itemId, change) {
+// --- 9. Cart Logic ---
+// Exposed to global scope for HTML onclick attributes
+window.updateCart = function (itemId, change) {
   if (navigator.vibrate) navigator.vibrate(50);
 
   if (!cart[itemId]) cart[itemId] = 0;
@@ -427,13 +501,14 @@ function updateCart(itemId, change) {
         `₹${getItemPrice(itemId) * cart[itemId]}`;
     } else {
       modalItem.remove();
-      if (Object.keys(cart).length === 0) closeCheckout();
+      if (Object.keys(cart).length === 0) window.closeCheckout();
     }
   }
 
   updateCartSummary();
-}
+};
 
+// --- FIX 3: Connect Cart Logic to New UI ---
 function updateCartSummary() {
   const totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
   let totalPrice = 0;
@@ -443,18 +518,62 @@ function updateCartSummary() {
   }
 
   const pill = document.getElementById("cartPill");
+  if (!pill) return;
+
   if (totalItems > 0) {
-    pill.classList.remove("hidden", "translate-y-20");
+    // 1. Remove 'hidden' so it renders
+    // 2. Remove 'translate-y-28' so it slides UP into view
+    pill.classList.remove("hidden", "translate-y-28");
+
     document.getElementById("cartCount").innerText =
       `${totalItems} ITEM${totalItems > 1 ? "S" : ""}`;
     document.getElementById("cartTotal").innerText = `₹${totalPrice}`;
-    document.getElementById("modalTotal").innerText = `₹${totalPrice}`;
+
+    const modalTotal = document.getElementById("modalTotal");
+    if (modalTotal) modalTotal.innerText = `₹${totalPrice}`;
   } else {
-    pill.classList.add("translate-y-20");
+    // Hide it by sliding DOWN
+    pill.classList.add("translate-y-28");
+
+    // Wait for animation to finish, then display: none
     setTimeout(() => pill.classList.add("hidden"), 300);
-    closeCheckout();
+
+    if (typeof window.closeCheckout === "function") window.closeCheckout();
   }
 }
+// --- FIX: Match New Cart Design Text ---
+// function updateCartSummary() {
+//   const totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
+//   let totalPrice = 0;
+
+//   for (const [id, qty] of Object.entries(cart)) {
+//     totalPrice += getItemPrice(id) * qty;
+//   }
+
+//   const pill = document.getElementById("cartPill");
+//   if (!pill) return;
+
+//   if (totalItems > 0) {
+//     // Show the cart
+//     pill.classList.remove("hidden", "translate-y-28");
+
+//     // Update Text to match the design (Uppercase ITEMS)
+//     document.getElementById("cartCount").innerText =
+//       `${totalItems} ITEM${totalItems > 1 ? "S" : ""}`;
+
+//     document.getElementById("cartTotal").innerText = `₹${totalPrice}`;
+
+//     // Also update the modal header if it exists
+//     const modalTotal = document.getElementById("modalTotal");
+//     if (modalTotal) modalTotal.innerText = `₹${totalPrice}`;
+//   } else {
+//     // Hide the cart
+//     pill.classList.add("translate-y-28");
+//     setTimeout(() => pill.classList.add("hidden"), 300);
+
+//     if (typeof window.closeCheckout === "function") window.closeCheckout();
+//   }
+// }
 
 function getItemPrice(id) {
   for (const cat of menuData) {
@@ -472,8 +591,8 @@ function getItemName(id) {
   return "";
 }
 
-// --- Checkout Modal ---
-function openCheckout() {
+// --- 10. Checkout Modal ---
+window.openCheckout = function () {
   checkStoreStatus();
 
   const modal = document.getElementById("checkoutModal");
@@ -509,9 +628,9 @@ function openCheckout() {
     backdrop.classList.remove("opacity-0");
     content.classList.remove("translate-y-full");
   }, 10);
-}
+};
 
-function closeCheckout() {
+window.closeCheckout = function () {
   const modal = document.getElementById("checkoutModal");
   const backdrop = document.getElementById("modalBackdrop");
   const content = document.getElementById("modalContent");
@@ -522,16 +641,17 @@ function closeCheckout() {
   setTimeout(() => {
     modal.classList.add("invisible");
   }, 300);
-}
+};
 
-// --- WhatsApp Integration ---
-function sendToWhatsApp() {
+// --- 11. WhatsApp Integration ---
+window.sendToWhatsApp = function () {
   if (!isStoreOpen) {
     alert("Sorry, the store is currently closed.");
     return;
   }
 
-  const notes = document.getElementById("orderNotes").value.trim();
+  const notesInput = document.getElementById("orderNotes");
+  const notes = notesInput ? notesInput.value.trim() : "";
   let message = `*NEW ORDER - MAHARANI*\n-----------------------\n`;
 
   let total = 0;
@@ -549,4 +669,4 @@ function sendToWhatsApp() {
 
   const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank");
-}
+};

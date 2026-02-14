@@ -19,74 +19,7 @@
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          fontFamily: {
-            sans: ["Outfit", "sans-serif"],
-          },
-          extend: {
-            colors: {
-              brand: {
-                orange: "#FF6D00",
-                green: "#00C853",
-                red: "#EF4444",
-                dark: "#0A0A0A",
-                card: "#171717",
-              },
-            },
-            animation: {
-              "bounce-short": "bounce-short 0.2s ease-in-out 1",
-            },
-            keyframes: {
-              "bounce-short": {
-                "0%, 100%": { transform: "scale(1)" },
-                "50%": { transform: "scale(0.96)" },
-              },
-            },
-          },
-        },
-      };
-    </script>
-
-    <style>
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-
-      .glass {
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      }
-
-      .dark .glass {
-        background: rgba(10, 10, 10, 0.85);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      }
-
-      * {
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      /* Highlight Class for Search */
-      .highlight-text {
-        background-color: rgba(255, 109, 0, 0.2);
-        color: #ff6d00;
-        padding: 0 2px;
-        border-radius: 4px;
-      }
-      .dark .highlight-text {
-        background-color: rgba(255, 109, 0, 0.4);
-        color: #ffd180;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body
     class="bg-gray-50 text-slate-900 dark:bg-brand-dark dark:text-gray-100 transition-colors duration-300"
@@ -150,8 +83,10 @@
     </header>
 
     <main
-      class="max-w-md mx-auto px-4 pt-[156px] min-h-[60vh]"
-      id="menuContainer"
+     <main
+         class="max-w-md mx-auto px-4 pt-[190px] min-h-[60vh]"
+        id="menuContainer"
+>
     >
       <div id="skeleton" class="space-y-4 animate-pulse">
         <div class="h-6 w-32 bg-gray-200 dark:bg-gray-800 rounded"></div>
@@ -241,20 +176,35 @@
 
     <div
       id="cartPill"
-      class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 translate-y-20 transition-transform duration-300 hidden"
+      class="fixed bottom-6 left-4 right-4 z-40 translate-y-28 transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) hidden"
     >
       <button
         onclick="openCheckout()"
-        class="flex items-center gap-3 bg-brand-orange text-white px-5 py-3 rounded-full shadow-lg shadow-orange-500/30 active:scale-95 transition-transform w-[340px] justify-between"
+        class="glass-cart w-full max-w-md mx-auto flex items-center justify-between p-2 pl-4 pr-2 rounded-2xl shadow-2xl shadow-orange-500/20 active:scale-[0.98] transition-transform"
       >
-        <div class="flex flex-col items-start text-xs">
-          <span class="font-bold text-sm" id="cartCount">0 Items</span>
-          <span class="opacity-90">View Cart</span>
+        <div class="flex flex-col items-start">
+          <span
+            class="text-[10px] font-bold uppercase tracking-wider text-white/80"
+            >Total</span
+          >
+          <span class="font-bold text-lg text-white leading-none" id="cartTotal"
+            >₹0</span
+          >
         </div>
-        <span class="font-bold text-lg" id="cartTotal">₹0</span>
+
+        <div class="flex items-center gap-3">
+          <span class="text-sm font-semibold text-white/90" id="cartCount"
+            >0 Items</span
+          >
+          <div
+            class="bg-white text-brand-orange h-10 px-4 rounded-xl flex items-center gap-2 font-bold text-sm shadow-sm"
+          >
+            <span>View Cart</span>
+            <i class="ph-bold ph-caret-right"></i>
+          </div>
+        </div>
       </button>
     </div>
-
     <div
       id="checkoutModal"
       class="fixed inset-0 z-50 invisible transition-all duration-300"
