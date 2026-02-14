@@ -7,6 +7,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>Maharani Ice Cream Parlour</title>
+    <link rel="icon" href="assets/favicon.png" type="image/png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,7 +25,7 @@
   <body
     class="bg-gray-50 text-slate-900 dark:bg-brand-dark dark:text-gray-100 transition-colors duration-300"
   >
-    <header
+    <!-- <header
       class="fixed top-0 left-0 right-0 z-40 glass transition-all duration-300"
     >
       <div class="max-w-md mx-auto px-4 py-3">
@@ -80,10 +81,82 @@
           id="categoryList"
         ></div>
       </nav>
+    </header> -->
+    <header
+      class="fixed top-0 left-0 right-0 z-40 glass transition-all duration-300"
+    >
+      <div class="max-w-6xl mx-auto px-4 py-3">
+        <div class="flex justify-between items-center mb-3">
+          <!-- Logo + Title -->
+          <div class="flex items-center gap-2">
+            <!-- Logo Image -->
+            <img
+              src="assets/logo2.png"
+              alt="Maharani Logo"
+              class="h-10 w-10 object-contain"
+            />
+
+            <!-- Store Name -->
+            <div class="flex flex-col">
+              <h1 class="text-lg font-bold tracking-tight text-brand-orange">
+                MAHARANI
+              </h1>
+              <div class="flex items-center gap-1.5" id="storeStatusContainer">
+                <span class="relative flex h-2 w-2">
+                  <span
+                    id="storeStatusPing"
+                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"
+                  ></span>
+                  <span
+                    id="storeStatusDot"
+                    class="relative inline-flex rounded-full h-2 w-2 bg-brand-green"
+                  ></span>
+                </span>
+                <span
+                  id="storeStatusText"
+                  class="text-xs font-medium text-gray-500 dark:text-gray-400"
+                  >Open Now • Khagaria</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button
+            id="themeToggle"
+            class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 active:scale-90 transition-transform"
+          >
+            <i class="ph ph-moon text-xl" id="themeIcon"></i>
+          </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative">
+          <i
+            class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg"
+          ></i>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search for paneer, shakes..."
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 border-none outline-none focus:ring-2 focus:ring-brand-orange/50 text-sm font-medium transition-all placeholder-gray-400 dark:placeholder-gray-500"
+          />
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav
+        class="max-w-6xl mx-auto pl-4 border-b border-gray-100 dark:border-gray-800/50"
+      >
+        <div
+          class="flex gap-3 overflow-x-auto no-scrollbar py-2 pr-4"
+          id="categoryList"
+        ></div>
+      </nav>
     </header>
 
     <main
-      class="max-w-md mx-auto px-4 pt-[190px] min-h-[60vh]"
+      class="max-w-6xl mx-auto px-4 pt-[190px] min-h-[60vh]"
       id="menuContainer"
     >
       >
@@ -95,10 +168,10 @@
       </div>
     </main>
 
-    <footer
+    <!-- <footer
       class="mt-12 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-brand-card pt-10 pb-36 transition-colors duration-300"
     >
-      <div class="max-w-md mx-auto px-6">
+      <div class="max-w-6xl mx-auto px-6">
         <div class="mb-8">
           <h2 class="text-2xl font-bold text-brand-orange mb-2 tracking-tight">
             MAHARANI
@@ -171,6 +244,100 @@
           ></a>
         </div>
       </div>
+    </footer> -->
+    <footer
+      class="mt-12 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-brand-card pt-10 pb-12 transition-colors duration-300"
+    >
+      <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+        <!-- Brand -->
+        <div>
+          <img
+            src="assets/logof.png"
+            alt="Maharani Logo"
+            class="h-10 w-10 mb-2"
+          />
+          <h2 class="text-2xl font-bold text-brand-orange mb-2 tracking-tight">
+            MAHARANI
+          </h2>
+          <p
+            class="text-sm text-gray-500 dark:text-gray-400 mb-5 leading-relaxed"
+          >
+            The finest ice cream parlour and food plaza in town.
+          </p>
+          <a
+            href="https://api.whatsapp.com/send?phone=918002710309"
+            class="inline-block px-4 py-2 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition"
+          >
+            Order via WhatsApp
+          </a>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3
+            class="font-bold text-gray-900 dark:text-gray-100 mb-4 text-sm uppercase tracking-wider"
+          >
+            Quick Links
+          </h3>
+          <ul class="space-y-2.5 text-sm text-gray-500 dark:text-gray-400">
+            <li><a href="#" class="hover:text-brand-orange">Home</a></li>
+            <li>
+              <a href="#menuContainer" class="hover:text-brand-orange">Menu</a>
+            </li>
+            <li>
+              <a href="#about" class="hover:text-brand-orange">About Us</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h3
+            class="font-bold text-gray-900 dark:text-gray-100 mb-4 text-sm uppercase tracking-wider"
+          >
+            Contact
+          </h3>
+          <ul class="space-y-2.5 text-sm text-gray-500 dark:text-gray-400">
+            <li>
+              <i class="ph-fill ph-map-pin text-brand-orange"></i> Thana Road,
+              Khagaria, Bihar
+            </li>
+            <li>
+              <i class="ph-fill ph-phone text-brand-orange"></i> +91 91234 56789
+            </li>
+            <li>
+              <i class="ph-fill ph-envelope text-brand-orange"></i>
+              info@maharaniice.com
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Social + Copyright -->
+      <div class="mt-8 flex justify-center gap-4">
+        <a
+          href="#"
+          class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-blue-600 hover:text-white transition"
+        >
+          <i class="ph-fill ph-facebook-logo text-xl"></i>
+        </a>
+        <a
+          href="#"
+          class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-pink-500 hover:text-white transition"
+        >
+          <i class="ph-fill ph-instagram-logo text-xl"></i>
+        </a>
+        <a
+          href="https://api.whatsapp.com/send?phone=918002710309"
+          class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-green-500 hover:text-white transition"
+        >
+          <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+        </a>
+      </div>
+
+      <p class="text-xs text-gray-400 mt-6 text-center">
+        © 2026 Maharani Ice Cream Parlour & Food Plaza. All rights reserved.
+      </p>
     </footer>
 
     <div
@@ -179,7 +346,7 @@
     >
       <button
         onclick="openCheckout()"
-        class="glass-cart w-full max-w-md mx-auto flex items-center justify-between p-2 pl-4 pr-2 rounded-2xl shadow-2xl shadow-orange-500/20 active:scale-[0.98] transition-transform"
+        class="glass-cart w-full max-w-6xl mx-auto flex items-center justify-between p-2 pl-4 pr-2 rounded-2xl shadow-2xl shadow-orange-500/20 active:scale-[0.98] transition-transform"
       >
         <div class="flex flex-col items-start">
           <span
@@ -214,7 +381,7 @@
         id="modalBackdrop"
       ></div>
       <div
-        class="absolute bottom-0 left-0 right-0 bg-white dark:bg-brand-card rounded-t-[2rem] transform translate-y-full transition-transform duration-300 max-h-[85vh] flex flex-col"
+        class="absolute bottom-0 left-0 right-0 md:top-1/2 md:left-1/2 md:right-auto md:bottom-auto md:-translate-x-1/2 md:-translate-y-1/2 md:w-[500px] md:h-auto md:max-h-[85vh] md:rounded-2xl bg-white dark:bg-brand-card rounded-t-[2rem] transform translate-y-full md:translate-y-10 transition-transform duration-300 flex flex-col shadow-2xl"
         id="modalContent"
       >
         <div

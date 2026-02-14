@@ -390,7 +390,8 @@ function generateCategoryHTML(cat, isSearch, searchQuery = "") {
                 : ""
             }
             
-            <div class="grid grid-cols-1 gap-4">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 ${cat.items
                   .map((item) => {
                     const qty = cart[item.id] || 0;
@@ -592,6 +593,7 @@ function getItemName(id) {
 }
 
 // --- 10. Checkout Modal ---
+// --- 10. Checkout Modal ---
 window.openCheckout = function () {
   checkStoreStatus();
 
@@ -600,6 +602,7 @@ window.openCheckout = function () {
   const content = document.getElementById("modalContent");
   const container = document.getElementById("cartItemsContainer");
 
+  // 1. Render Cart Items
   container.innerHTML = Object.entries(cart)
     .map(([id, qty]) => {
       const name = getItemName(id);
@@ -608,25 +611,35 @@ window.openCheckout = function () {
             <div id="modal-item-${id}" class="flex justify-between items-center border-b border-gray-100 dark:border-gray-800 pb-3 last:border-0">
                 <div class="flex-1">
                     <div class="flex items-center gap-2">
-                        <i class="ph ph-circle-stop text-brand-green text-[10px]"></i>
+                        <i class="ph-fill ph-circle-stop text-brand-green text-[10px]"></i>
                         <h4 class="font-medium text-sm dark:text-gray-200">${name}</h4>
                     </div>
                     <p class="text-xs text-brand-orange mt-1 subtotal-display">₹${price * qty}</p>
                 </div>
                 <div class="flex items-center border border-gray-200 dark:border-gray-700 rounded-lg h-8">
-                    <button onclick="updateCart(${id}, -1)" class="w-8 h-full text-gray-500 hover:text-brand-orange"><i class="ph ph-minus text-xs"></i></button>
+                    <button onclick="updateCart(${id}, -1)" class="w-8 h-full text-gray-500 hover:text-brand-orange"><i class="ph-bold ph-minus text-xs"></i></button>
                     <span class="w-6 text-center text-sm font-semibold qty-display dark:text-gray-200">${qty}</span>
-                    <button onclick="updateCart(${id}, 1)" class="w-8 h-full text-gray-500 hover:text-brand-orange"><i class="ph ph-plus text-xs"></i></button>
+                    <button onclick="updateCart(${id}, 1)" class="w-8 h-full text-gray-500 hover:text-brand-orange"><i class="ph-bold ph-plus text-xs"></i></button>
                 </div>
             </div>
         `;
     })
     .join("");
 
+  // 2. Animate Open
+  // Remove 'invisible' first so it exists in DOM
   modal.classList.remove("invisible");
+
+  // Small delay ensures the transition animation plays
   setTimeout(() => {
     backdrop.classList.remove("opacity-0");
-    content.classList.remove("translate-y-full");
+
+    // Remove the "closed" positions so it slides/fades to center (0,0)
+    content.classList.remove(
+      "translate-y-full",
+      "md:translate-y-10",
+      "opacity-0",
+    );
   }, 10);
 };
 
@@ -635,9 +648,13 @@ window.closeCheckout = function () {
   const backdrop = document.getElementById("modalBackdrop");
   const content = document.getElementById("modalContent");
 
+  // 1. Animate Close
   backdrop.classList.add("opacity-0");
-  content.classList.add("translate-y-full");
 
+  // Push it back down (Mobile: full, Desktop: slightly down)
+  content.classList.add("translate-y-full", "md:translate-y-10", "opacity-0");
+
+  // 2. Hide after animation finishes (300ms matches CSS duration)
   setTimeout(() => {
     modal.classList.add("invisible");
   }, 300);
