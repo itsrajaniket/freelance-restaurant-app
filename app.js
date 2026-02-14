@@ -1,5 +1,5 @@
 /* * MAHARANI ICE CREAM PARLOUR & FOOD PLAZA
- * Logic: Menu Data, State, Search Highlight, Scroll Spy, Store Hours
+ * Logic: Fixed Scroll Spy & Clean Layout
  */
 
 // --- Menu Data Source ---
@@ -139,34 +139,31 @@ const menuData = [
 // --- State Management ---
 const cart = {};
 let activeCategory = menuData[0].category;
-let isStoreOpen = true; // Default
+let isStoreOpen = true;
 
 // --- Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   renderCategories();
   renderMenu();
-  checkStoreStatus(); // 🕒 Feature 6: Check Hours
+  checkStoreStatus();
 
-  // Setup Search Listener
+  // Search Listener
   document.getElementById("searchInput").addEventListener("input", (e) => {
     const query = e.target.value.toLowerCase();
     renderMenu(query);
   });
 
-  // Remove Skeleton
   document.getElementById("skeleton").remove();
 
-  // ⚡ Feature 3: Active Scroll Spy Implementation
-  setupScrollSpy();
+  // Init Scroll Listener
+  window.addEventListener("scroll", handleScrollSpy);
 });
 
-// --- Feature 6: Operational Hours Check ---
+// --- Feature 6: Operational Hours ---
 function checkStoreStatus() {
   const now = new Date();
   const hour = now.getHours();
-
-  // Config: Open between 10 AM (10) and 11 PM (23)
   isStoreOpen = hour >= 10 && hour < 23;
 
   const dot = document.getElementById("storeStatusDot");
@@ -175,15 +172,14 @@ function checkStoreStatus() {
   const whatsappBtn = document.getElementById("whatsappBtn");
 
   if (!isStoreOpen) {
-    // Change UI to Closed
-    dot.classList.remove("bg-brand-green");
-    dot.classList.add("bg-brand-red");
-    ping.classList.remove("bg-brand-green");
-    ping.classList.add("bg-brand-red");
-    text.innerText = "Closed • Opens 10 AM";
-    text.classList.add("text-brand-red");
-
-    // Disable Checkout Button
+    if (dot) {
+      dot.classList.remove("bg-brand-green");
+      dot.classList.add("bg-brand-red");
+      ping.classList.remove("bg-brand-green");
+      ping.classList.add("bg-brand-red");
+      text.innerText = "Closed • Opens 10 AM";
+      text.classList.add("text-brand-red");
+    }
     if (whatsappBtn) {
       whatsappBtn.disabled = true;
       whatsappBtn.classList.add("opacity-50", "cursor-not-allowed");
@@ -192,34 +188,28 @@ function checkStoreStatus() {
   }
 }
 
-// --- Feature 3: Scroll Spy Logic ---
-function setupScrollSpy() {
-  const observerOptions = {
-    root: null,
-    // 'rootMargin' defines the "Active Zone"
-    // -160px from top (ignores the header)
-    // -70% from bottom (ignores the bottom 70% of screen)
-    // This creates a small "trigger line" near the top of the content area.
-    rootMargin: "-160px 0px -70% 0px",
-    threshold: 0,
-  };
+// --- FIX 1: Robust Scroll Spy ---
+function handleScrollSpy() {
+  // Height of Header + Search Bar + Category Pills approx 160px
+  const headerOffset = 180;
+  const sections = document.querySelectorAll('[id^="cat-"]');
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        // FIXED: Get exact name from data attribute, not by parsing ID
-        const categoryName = entry.target.getAttribute("data-category");
-        if (categoryName) {
-          updateActivePill(categoryName);
-        }
-      }
-    });
-  }, observerOptions);
+  let current = "";
 
-  // Observe all category sections
-  document.querySelectorAll('[id^="cat-"]').forEach((section) => {
-    observer.observe(section);
+  sections.forEach((section) => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.clientHeight;
+
+    // Check if we are currently looking at this section
+    if (window.scrollY >= sectionTop - headerOffset) {
+      current = section.getAttribute("data-category");
+    }
   });
+
+  // Only update if it changed
+  if (current && current !== activeCategory) {
+    updateActivePill(current);
+  }
 }
 
 // --- Theme Logic ---
@@ -250,7 +240,6 @@ function renderCategories() {
   const container = document.getElementById("categoryList");
   container.innerHTML = menuData
     .map((cat) => {
-      // Create unique ID for pill to target later
       const pillId = `pill-${cat.category.replace(/\s+/g, "-")}`;
       return `
         <button 
@@ -272,7 +261,6 @@ function renderCategories() {
 }
 
 function updateActivePill(catName) {
-  if (activeCategory === catName) return;
   activeCategory = catName;
 
   // Reset all buttons
@@ -288,7 +276,6 @@ function updateActivePill(catName) {
   if (activeBtn) {
     activeBtn.className =
       "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-300 bg-brand-orange text-white shadow-lg shadow-orange-500/20";
-    // Scroll pill into view
     activeBtn.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
@@ -304,7 +291,7 @@ function scrollToCategory(catName) {
   if (element) {
     const y = element.getBoundingClientRect().top + window.scrollY - 160;
     window.scrollTo({ top: y, behavior: "smooth" });
-    updateActivePill(catName);
+    updateActivePill(catName); // Update UI immediately
   }
 }
 
@@ -312,7 +299,6 @@ function renderMenu(searchQuery = "") {
   const container = document.getElementById("menuContainer");
 
   if (searchQuery) {
-    // Filter Logic
     const matches = [];
     menuData.forEach((cat) => {
       const items = cat.items.filter((item) =>
@@ -330,7 +316,6 @@ function renderMenu(searchQuery = "") {
       return;
     }
 
-    // Pass searchQuery to helper to enable highlighting
     container.innerHTML = matches
       .map((cat) => generateCategoryHTML(cat, true, searchQuery))
       .join("");
@@ -341,10 +326,11 @@ function renderMenu(searchQuery = "") {
   }
 }
 
+// --- FIX 2: Layout Cleanup ---
 function generateCategoryHTML(cat, isSearch, searchQuery = "") {
+  // Create ID but also add DATA-CATEGORY for the scroll spy to read
   const catId = `cat-${cat.category.replace(/\s+/g, "-")}`;
 
-  // ADDED data-category attribute below for reliable Scroll Spy
   return `
         <div id="${catId}" data-category="${cat.category}" class="mb-8 scroll-mt-[170px]">
             ${
@@ -361,6 +347,7 @@ function generateCategoryHTML(cat, isSearch, searchQuery = "") {
                   .map((item) => {
                     const qty = cart[item.id] || 0;
 
+                    // Search Highlight Logic
                     let displayName = item.name;
                     if (isSearch && searchQuery) {
                       const regex = new RegExp(`(${searchQuery})`, "gi");
@@ -370,18 +357,21 @@ function generateCategoryHTML(cat, isSearch, searchQuery = "") {
                       );
                     }
 
+                    // FIXED LAYOUT: Removed the hardcoded Bestseller badge.
+                    // Put the Veg icon inline with the name to save space.
                     return `
-                    <div class="bg-white dark:bg-brand-card p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 flex justify-between items-start">
-                        <div class="flex-1 pr-4">
-                            <div class="flex items-center gap-2 mb-1">
-                                <i class="ph ph-circle-stop text-brand-green text-xs"></i>
-                                <span class="text-xs font-semibold text-brand-orange bg-orange-50 dark:bg-orange-900/20 px-2 py-0.5 rounded">Bestseller</span>
+                    <div class="bg-white dark:bg-brand-card p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 flex justify-between items-center">
+                        <div class="flex-1 pr-3 overflow-hidden">
+                            <div class="flex items-start gap-2">
+                                <i class="ph-fill ph-circle text-brand-green text-[10px] mt-1.5 flex-shrink-0"></i>
+                                <div class="flex flex-col">
+                                    <h4 class="font-semibold text-gray-900 dark:text-gray-100 text-[15px] leading-tight break-words">${displayName}</h4>
+                                    <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">₹${item.price}</p>
+                                </div>
                             </div>
-                            <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 leading-snug">${displayName}</h4>
-                            <p class="text-gray-500 dark:text-gray-400 text-sm">₹${item.price}</p>
                         </div>
                         
-                        <div class="flex flex-col items-center gap-1" id="btn-container-${item.id}">
+                        <div class="flex flex-col items-center gap-1 flex-shrink-0" id="btn-container-${item.id}">
                             ${getButtonHTML(item.id, qty)}
                         </div>
                     </div>
@@ -429,7 +419,6 @@ function updateCart(itemId, change) {
     btnContainer.innerHTML = getButtonHTML(itemId, cart[itemId] || 0);
   }
 
-  // Update Modal items if open
   const modalItem = document.getElementById(`modal-item-${itemId}`);
   if (modalItem) {
     if (cart[itemId]) {
@@ -485,7 +474,6 @@ function getItemName(id) {
 
 // --- Checkout Modal ---
 function openCheckout() {
-  // Check store status again before opening
   checkStoreStatus();
 
   const modal = document.getElementById("checkoutModal");
@@ -493,7 +481,6 @@ function openCheckout() {
   const content = document.getElementById("modalContent");
   const container = document.getElementById("cartItemsContainer");
 
-  // Render Items
   container.innerHTML = Object.entries(cart)
     .map(([id, qty]) => {
       const name = getItemName(id);
