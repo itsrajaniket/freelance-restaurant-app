@@ -108,3 +108,17 @@ body {
 .border-brand-gold {
   border-color: #ffd700;
 }
+/* Animation for the Header Diamonds */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.ph-diamond {
+  display: inline-block;
+  font-size: 0.8em;
+  opacity: 0.8;
+}

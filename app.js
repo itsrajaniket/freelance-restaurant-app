@@ -39,14 +39,38 @@ const menuData = [
     category: "Indian Dishes",
     icon: "ph-bowl-food",
     items: [
-      { id: 101, name: "Kadai Paneer", price: 399, type: "veg" },
-      { id: 102, name: "Paneer Butter Masala", price: 389, type: "veg" },
+      {
+        id: 101,
+        name: "Kadai Paneer",
+        price: 399,
+        type: "veg",
+        bestseller: true,
+      },
+      {
+        id: 102,
+        name: "Paneer Butter Masala",
+        price: 389,
+        type: "veg",
+        bestseller: true,
+      },
       { id: 103, name: "Soya Chaap Masala", price: 340, type: "veg" },
       { id: 104, name: "Matar Paneer", price: 210, type: "veg" },
       { id: 105, name: "Mushroom Butter Masala", price: 330, type: "veg" },
       { id: 106, name: "Dal Tadka", price: 120, type: "veg" },
-      { id: 107, name: "Paneer Do Pyaza", price: 389, type: "veg" },
-      { id: 108, name: "Shahi Paneer", price: 399, type: "veg" },
+      {
+        id: 107,
+        name: "Paneer Do Pyaza",
+        price: 389,
+        type: "veg",
+        bestseller: true,
+      },
+      {
+        id: 108,
+        name: "Shahi Paneer",
+        price: 399,
+        type: "veg",
+        bestseller: true,
+      },
       { id: 109, name: "Mushroom Kadai", price: 340, type: "veg" },
       { id: 110, name: "Mix-Veg", price: 199, type: "veg" },
     ],
@@ -56,9 +80,21 @@ const menuData = [
     icon: "ph-chopsticks",
     items: [
       { id: 201, name: "Paneer Chilli", price: 330, type: "veg" },
-      { id: 202, name: "Manchurian", price: 310, type: "veg" },
+      {
+        id: 202,
+        name: "Manchurian",
+        price: 310,
+        type: "veg",
+        bestseller: true,
+      },
       { id: 203, name: "Honey Chilli Potato", price: 220, type: "veg" },
-      { id: 204, name: "Baby Corn Chilli", price: 310, type: "veg" },
+      {
+        id: 204,
+        name: "Baby Corn Chilli",
+        price: 310,
+        type: "veg",
+        bestseller: true,
+      },
       { id: 205, name: "Crispy Sweet Corn", price: 285, type: "veg" },
       { id: 206, name: "Mushroom Chilli Dry", price: 299, type: "veg" },
     ],
@@ -67,9 +103,21 @@ const menuData = [
     category: "Rolls",
     icon: "ph-scroll",
     items: [
-      { id: 301, name: "Paneer Roll", price: 130, type: "veg" },
+      {
+        id: 301,
+        name: "Paneer Roll",
+        price: 130,
+        type: "veg",
+        bestseller: true,
+      },
       { id: 302, name: "Tikka Paneer Roll", price: 199, type: "veg" },
-      { id: 303, name: "Paneer Laccha Roll", price: 140, type: "veg" },
+      {
+        id: 303,
+        name: "Paneer Laccha Roll",
+        price: 140,
+        type: "veg",
+        bestseller: true,
+      },
       { id: 304, name: "Veg Lachha Roll", price: 99, type: "veg" },
       { id: 305, name: "Veg Roll", price: 99, type: "veg" },
     ],
@@ -79,17 +127,29 @@ const menuData = [
     icon: "ph-coffee",
     items: [
       { id: 401, name: "Iced Mocha", price: 149, type: "veg" },
-      { id: 402, name: "Cold Coffee", price: 169, type: "veg" },
+      {
+        id: 402,
+        name: "Cold Coffee",
+        price: 169,
+        type: "veg",
+        bestseller: true,
+      },
       { id: 403, name: "Affogato", price: 119, type: "veg" },
       { id: 404, name: "Iced Americano", price: 89, type: "veg" },
-      { id: 405, name: "Iced Latte", price: 149, type: "veg" },
+      {
+        id: 405,
+        name: "Iced Latte",
+        price: 149,
+        type: "veg",
+        bestseller: true,
+      },
     ],
   },
   {
     category: "Shakes",
     icon: "ph-brandy",
     items: [
-      { id: 501, name: "Lassi", price: 60, type: "veg" },
+      { id: 501, name: "Lassi", price: 60, type: "veg", bestseller: true },
       { id: 502, name: "Mango Milk", price: 119, type: "veg" },
       { id: 503, name: "Pineapple Punch", price: 119, type: "veg" },
       { id: 504, name: "Strawberry Crunch", price: 119, type: "veg" },
@@ -103,7 +163,13 @@ const menuData = [
     category: "Noodles",
     icon: "ph-bowl-steam",
     items: [
-      { id: 601, name: "Paneer Noodles", price: 250, type: "veg" },
+      {
+        id: 601,
+        name: "Paneer Noodles",
+        price: 250,
+        type: "veg",
+        bestseller: true,
+      },
       { id: 602, name: "Schezwan Noodles", price: 230, type: "veg" },
       { id: 603, name: "Veg Noodles", price: 170, type: "veg" },
       { id: 604, name: "Garlic Noodles", price: 220, type: "veg" },
@@ -115,9 +181,15 @@ const menuData = [
     items: [
       { id: 701, name: "Hot Chocolate", price: 140, type: "veg" },
       { id: 702, name: "Espresso Single", price: 59, type: "veg" },
-      { id: 703, name: "Espresso Double", price: 89, type: "veg" },
+      {
+        id: 703,
+        name: "Espresso Double",
+        price: 89,
+        type: "veg",
+        bestseller: true,
+      },
       { id: 704, name: "Americano", price: 95, type: "veg" },
-      { id: 705, name: "Cappuccino", price: 99, type: "veg" },
+      { id: 705, name: "Cappuccino", price: 99, type: "veg", bestseller: true },
       { id: 706, name: "Cafe Latte", price: 109, type: "veg" },
     ],
   },
@@ -144,8 +216,20 @@ const menuData = [
     category: "Quick Bites",
     icon: "ph-pizza",
     items: [
-      { id: 1001, name: "Steam Sweet Corn", price: 99, type: "veg" },
-      { id: 1002, name: "French Fry", price: 99, type: "veg" },
+      {
+        id: 1001,
+        name: "Steam Sweet Corn",
+        price: 99,
+        type: "veg",
+        bestseller: true,
+      },
+      {
+        id: 1002,
+        name: "French Fry",
+        price: 99,
+        type: "veg",
+        bestseller: true,
+      },
     ],
   },
   {
@@ -377,26 +461,29 @@ function renderMenu(searchQuery = "") {
 function generateCategoryHTML(cat, isSearch, searchQuery = "") {
   const catId = `cat-${cat.category.replace(/\s+/g, "-")}`;
 
+  // 1. ROYAL DIVIDER LOGIC
+  const headerHTML = !isSearch
+    ? `<div class="flex items-center gap-4 mb-6 pt-4">
+         <div class="h-px flex-1 bg-gradient-to-r from-transparent via-gray-300 to-transparent dark:via-gray-700"></div>
+         <h3 class="flex items-center gap-2 text-xl font-bold text-gray-800 dark:text-gray-100 tracking-tight uppercase">
+             <i class="ph-fill ph-diamond text-brand-orange text-sm"></i>
+             ${cat.category}
+             <i class="ph-fill ph-diamond text-brand-orange text-sm"></i>
+         </h3>
+         <div class="h-px flex-1 bg-gradient-to-r from-transparent via-gray-300 to-transparent dark:via-gray-700"></div>
+       </div>`
+    : "";
+
   return `
-        <div id="${catId}" data-category="${cat.category}" class="mb-10 scroll-mt-[200px]">
-            ${
-              !isSearch
-                ? `<div class="flex items-center gap-3 mb-5 pl-1">
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white tracking-tight">
-                        ${cat.category}
-                    </h3>
-                    <div class="h-px flex-1 bg-gray-100 dark:bg-gray-800"></div>
-                   </div>`
-                : ""
-            }
+        <div id="${catId}" data-category="${cat.category}" class="mb-8 scroll-mt-[220px]">
+            ${headerHTML}
             
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
                 ${cat.items
                   .map((item) => {
                     const qty = cart[item.id] || 0;
 
-                    // Highlight Logic
+                    // Search Highlight Logic
                     let displayName = item.name;
                     if (isSearch && searchQuery) {
                       const regex = new RegExp(`(${searchQuery})`, "gi");
@@ -406,22 +493,37 @@ function generateCategoryHTML(cat, isSearch, searchQuery = "") {
                       );
                     }
 
-                    return `
-                    <div class="menu-card group relative bg-white dark:bg-brand-card p-4 rounded-[1.25rem] shadow-sm border border-gray-100 dark:border-gray-800 flex justify-between items-start gap-3 overflow-hidden">
-                        
-                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-brand-orange/0 via-brand-orange/50 to-brand-orange/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    // 2. BESTSELLER BADGE LOGIC
+                    const bestsellerBadge = item.bestseller
+                      ? `<div class="absolute -top-1 -right-1 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg shadow-sm z-10 flex items-center gap-1">
+                           <i class="ph-fill ph-crown"></i> MUST TRY
+                         </div>`
+                      : "";
 
-                        <div class="flex-1 py-1">
-                            <div class="flex items-start gap-2.5">
+                    const borderClass = item.bestseller
+                      ? "border-yellow-400/50 dark:border-yellow-500/30 ring-1 ring-yellow-400/20"
+                      : "border-gray-100 dark:border-gray-800";
+
+                    return `
+                    <div class="menu-card group relative bg-white dark:bg-brand-card p-4 rounded-2xl shadow-sm border ${borderClass} flex justify-between items-start gap-3 overflow-visible transition-all duration-300 hover:shadow-md">
+                        
+                        ${bestsellerBadge}
+
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl pointer-events-none"></div>
+
+                        <div class="flex-1 py-1 relative z-0">
+                            <div class="flex items-start gap-3">
                                 <i class="ph-fill ph-circle-stop ${item.type === "veg" ? "text-green-500" : "text-red-500"} text-xs mt-1.5 shadow-sm"></i>
                                 <div class="flex flex-col gap-1">
-                                    <h4 class="font-bold text-gray-900 dark:text-gray-50 text-[16px] leading-snug">${displayName}</h4>
+                                    <h4 class="font-bold text-gray-900 dark:text-gray-50 text-[16px] leading-snug pr-6">${displayName}</h4>
                                     <p class="font-medium text-gray-500 dark:text-gray-400 text-sm">₹${item.price}</p>
+                                    
+                                    ${item.bestseller ? `<p class="text-[10px] text-yellow-600 dark:text-yellow-500 font-medium flex items-center gap-1 mt-0.5"><i class="ph-fill ph-star"></i> Chef's Favorite</p>` : ""}
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="flex flex-col items-center justify-center self-center pl-2" id="btn-container-${item.id}">
+                        <div class="flex flex-col items-center justify-center self-center pl-2 relative z-10" id="btn-container-${item.id}">
                             ${getButtonHTML(item.id, qty)}
                         </div>
                     </div>
