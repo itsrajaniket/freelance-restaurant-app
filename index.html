@@ -155,7 +155,7 @@
       </nav>
     </header>
 
-    <main
+    <!-- <main
       class="max-w-6xl mx-auto px-4 pt-[190px] min-h-[60vh]"
       id="menuContainer"
     >
@@ -166,8 +166,59 @@
         <div class="h-24 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
         <div class="h-24 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
       </div>
-    </main>
+    </main> -->
+    <main
+      class="max-w-6xl mx-auto px-4 pt-[190px] min-h-[60vh]"
+      id="mainLayout"
+    >
+      <div id="hero-section" class="mb-10 animate-fade-in-up">
+        <div
+          class="hero-banner rounded-3xl p-8 md:p-12 text-white flex flex-col items-start justify-center min-h-[220px] md:min-h-[300px] relative overflow-hidden group"
+        >
+          <div
+            class="absolute top-0 right-0 p-8 opacity-20 transform translate-x-10 -translate-y-10"
+          >
+            <i class="ph-fill ph-crown text-9xl text-brand-gold"></i>
+          </div>
 
+          <span
+            class="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-widest uppercase border border-white/30 rounded-full bg-white/10 backdrop-blur-md text-brand-gold"
+          >
+            Since 2010 • Khagaria
+          </span>
+
+          <h2 class="text-3xl md:text-5xl font-bold mb-2 leading-tight">
+            The Royal Taste of <br />
+            <span class="text-brand-orange">Maharani.</span>
+          </h2>
+
+          <p
+            class="text-gray-200 text-sm md:text-base mb-6 max-w-md leading-relaxed"
+          >
+            From our famous rich <strong>Ice Creams</strong> to spicy
+            <strong>Tikka & Chinese</strong>. Experience the finest food plaza
+            in town.
+          </p>
+
+          <button
+            onclick="scrollToCategory('Best Sellers')"
+            class="bg-brand-orange hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-orange-500/30 transition-all active:scale-95 flex items-center gap-2"
+          >
+            <span>Explore Menu</span>
+            <i class="ph-bold ph-arrow-down"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="menuContainer">
+        <div id="skeleton" class="space-y-4 animate-pulse">
+          <div class="h-6 w-32 bg-gray-200 dark:bg-gray-800 rounded"></div>
+          <div class="h-24 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
+          <div class="h-24 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
+          <div class="h-24 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
+        </div>
+      </div>
+    </main>
     <!-- <footer
       class="mt-12 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-brand-card pt-10 pb-36 transition-colors duration-300"
     >
